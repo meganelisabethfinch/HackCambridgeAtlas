@@ -5,7 +5,7 @@
 Make sure you have Python installed
 
 ```sh
-git clone https://github.com/meganelisabethfinch/HackCambridgeAtlas.git
+$ git clone https://github.com/meganelisabethfinch/HackCambridgeAtlas.git
 $ cd HackCambridgeAtlas
 $ pip install -r requirements.txt
 $ python app.py
