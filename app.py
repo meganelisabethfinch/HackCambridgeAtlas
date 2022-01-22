@@ -14,9 +14,9 @@ app_data = {
     "html_title":   "Practice Chat Session",
     "project_name": "Chatbot App",
     "slogan":       "Bringing the power of conversation to your hands",
-    "keywords":     "chatbot, languages, conversation, learn"
+    "language":     "EN",
+    "topic":        "climate-change"
 }
-
 
 @app.route('/')
 def index():
@@ -26,8 +26,10 @@ def index():
 def chat_topics():
     return render_template('chat-topics.html', app_data=app_data)
 
-@app.route('/chat')
-def chat():
+@app.route('/chat/<string:language>/<string:topic>')
+def chat(language, topic):
+    app_data["language"] = language
+    app_data["topic"] = topic
     return render_template('chat.html', app_data=app_data)
 
 @app.route('/help')
