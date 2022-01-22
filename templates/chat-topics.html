@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Welcome to Chat.</h1>
+
+    <p class="lead">
+        Here you can start a new practice session. Please select a topic you'd like to discuss.
+    </p>
+
+    <div class="row justify-content-center p-3">
+        <!-- topics as cards/buttons -->
+        <div class="col-3">
+            <a href="/chat" class="btn btn-outline-secondary p-3" style="height: 100%">
+                <h5 class="card-title">Climate Change</h5>
+                <p class="card-text">Talk about the latest topics regarding the climate crisis. What are the causes? How can we help?</p>
+            </a>
+        </div>
+        <div class="col-3">
+            <a href="/chat" class="btn btn-outline-secondary p-3" style="height: 100%">
+                <h5 class="card-title">Sustainable Development</h5>
+                <p class="card-text">Lorem ipsum bla bla bla</p>
+            </a>
+        </div>
+        <div class="col-3">
+            <a href="/chat" class="btn btn-outline-secondary p-3" style="height: 100%">
+                <h5 class="card-title">Topic 3</h5>
+                <p class="card-text">Lorem ipsum bla bla bla</p>
+            </a>
+        </div>
+    </div>
+{% endblock %}

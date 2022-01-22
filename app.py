@@ -22,6 +22,10 @@ app_data = {
 def index():
     return render_template('index.html', app_data=app_data)
 
+@app.route('/chat-topics')
+def chat_topics():
+    return render_template('chat-topics.html', app_data=app_data)
+
 @app.route('/chat')
 def chat():
     return render_template('chat.html', app_data=app_data)
