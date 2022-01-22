@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>Welcome to Chat.</h1>
+    <h1>Welcome to your chat!</h1>
 
     <p class="lead">
-        Here you can start a new practice session.
+        This is your new practice session in {{ app_data['language'] }}. Your topic of conversation is {{ app_data['topic'] }}.
     </p>
 
     <div id="chatbox" class="jumbotron rounded-3">
