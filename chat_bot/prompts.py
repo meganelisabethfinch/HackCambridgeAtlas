@@ -88,3 +88,4 @@ def choose_subtopic(topic):
         if lower < rand_val <= higher:
             return subtopic
 
+
