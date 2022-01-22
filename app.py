@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, render_template, send_from_directory, request
+from speech_recognition.audio_transcriber import AudioTranscriber
+import asyncio
+from io import BufferedReader
 
 DEVELOPMENT_ENV  = True
 
@@ -46,7 +49,12 @@ def send_js(path):
 def upload():
     if request.method == 'POST':
         f = request.files['audio_data']
+        transcriber = AudioTranscriber("en-GB")
         f.save('temp/upload.wav')
+        with open('temp/upload.wav', 'rb') as file:
+            text = asyncio.run(transcriber.transcribe_audio(file))
+            print(text)
+        
         return "success"
     return "fail"
 

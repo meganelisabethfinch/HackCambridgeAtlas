@@ -27,10 +27,11 @@ class AudioTranscriber:
             print("Error: Deepgram API request failed.")
             return
 
-PATH_TO_FILE = 'life-moves-pretty-fast.wav'
+PATH_TO_FILE = 'speech_recognition\\life-moves-pretty-fast.wav'
 async def main():
     transcriber = AudioTranscriber('en-GB')
     with open(PATH_TO_FILE, 'rb') as audio:
         response = await transcriber.transcribe_audio(audio)
 
 asyncio.run(main())
+
