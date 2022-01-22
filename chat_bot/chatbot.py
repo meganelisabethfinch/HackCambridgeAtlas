@@ -36,7 +36,7 @@ class ChatBot:
         self.prompt += response
         while response[-1] != "?":
             self.prompt += "\nFriend_q:"
-            response += ' ' + self.api_request()
+            response += ' ' + self.api_request(self.prompt)
         return response
 
     def translate(self, text, source_language, target_language):
