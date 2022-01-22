@@ -13,20 +13,28 @@ prompts = {
     },
     "lifestyle": {
         "hobbies": "This is a conversation between friends about hobbies. \n\nFriend_Q: What do you like to do in your spare time?\n\nYou: I like to play video games, watch TV, and read. What about you?\n\nFriend_A: I like to cook and hang out with my friends. \n\nYou: That sounds like fun.\n\nFriend_Q: What do you watch on TV?\n\nYou:  I like to watch action movies and comedies.\n\nYou: Do you get a lot of free time?\n\nFriend_A: I usually have a few hours each day to myself.\n\n",
-        "home": "This is a conversation between two friends and their homes.\n\nFriend_Q: Where do you live?\n\nYou: I live in a village, 30 minutes from the centre of town. \n\nFriend_A: That sounds so nice!\n\nYou: Yes, I have a quaint cottage and the neighbours are lovely. \n\nFriend_Q: How many bedrooms does your house have? \n\nYou: Only 2 bedrooms, but the garden is huge. What is your house like? \n\nFriend_A: I live in an apartment in the city centre. It's small, but I love it."
-
+        "home": "This is a conversation between two friends and their homes.\n\nFriend_Q: Where do you live?\n\nYou: I live in a village, 30 minutes from the centre of town. \n\nFriend_A: That sounds so nice!\n\nYou: Yes, I have a quaint cottage and the neighbours are lovely. \n\nFriend_Q: How many bedrooms does your house have? \n\nYou: Only 2 bedrooms, but the garden is huge. What is your house like? \n\nFriend_A: I live in an apartment in the city centre. It's small, but I love it.",
+        "food":"The following is a conversation between friends about food.\n\nFriend_q: What is your favourite pizza?\nYou: Ham and pineapple.\nFriend_q: What is your favourite type of chocolate?\nYou: Milk chocolate.\nYou: What is your favourite sandwich?\nFriend_a: I love a good BLT. \nYou: Why?\nFriend_a: The bacon, lettuce and tomato are the perfect combination."
     }
 }
 
-counts = {}
-
-
-def initialise_counts():
-    for topic in prompts:
-        sub_counts = {}
-        for sub_topic in prompts.get(topic):
-            sub_counts.update({sub_topic: 1})
-        counts.update({topic: sub_counts})
+counts = {
+    "environment": {
+        "transport": 1,
+        "recycling": 1,
+        "food_waste":1
+    },
+    "culture": {
+        "england": 1,
+        "movies": 1,
+        "music": 1
+    },
+    "lifestyle": {
+        "hobbies": 1,
+        "home": 1,
+        "food": 1
+    }
+}
 
 
 def inc_count(topic, subtopic):
@@ -39,6 +47,7 @@ def inc_count(topic, subtopic):
 
 def get_prompt(topic):
     subtopic = choose_subtopic(topic)
+    inc_count(topic, subtopic)
     return prompts.get(topic).get(subtopic)
 
 
@@ -78,3 +87,4 @@ def choose_subtopic(topic):
         higher = ranges.get(subtopic)[1]
         if lower < rand_val <= higher:
             return subtopic
+
