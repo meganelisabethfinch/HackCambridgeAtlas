@@ -9,7 +9,7 @@ class AudioTranscriber:
         self.language = language
         self.DEEPGRAM_API_KEY = '84dfb83a357fb78cc94cab587f5c8f27f7d1ee2a'
         self.dg_client = Deepgram(self.DEEPGRAM_API_KEY)
-        self.url = "https://api.deepgram.com/v1/listen"
+        self.url = "https://api.deepgram.com/v1/listen?punctuate=true"
 
 
     async def transcribe_audio(self, audio):
@@ -35,7 +35,7 @@ class AudioTranscriber:
             print("Error: Deepgram API request failed.")
             return
 
-
+'''
 PATH_TO_FILE = 'speech_recognition/upload2.wav'
 async def main():
     transcriber = AudioTranscriber('en-GB')
@@ -43,5 +43,5 @@ async def main():
         response = await transcriber.transcribe_audio(audio)
 
 asyncio.run(main())
-
+'''
 

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, render_template, send_from_directory, request
+from chatbot import ChatBot
 from speech_recognition.audio_transcriber import AudioTranscriber
 import asyncio
 import soundfile as sf
@@ -20,6 +21,8 @@ app_data = {
     "language":     "EN",
     "topic":        "climate-change"
 }
+
+chatbot = ChatBot("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", "food")
 
 @app.route('/')
 def index():
@@ -60,8 +63,8 @@ def upload():
             print(file)
             text = asyncio.run(transcriber.transcribe_audio(file))
             print(text)
-        
-        return "success"
+            answer = chatbot.chat(text)
+            return answer
     return "fail"
 
 
