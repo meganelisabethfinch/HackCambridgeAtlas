@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory, request
 
 DEVELOPMENT_ENV  = True
 
@@ -39,6 +39,18 @@ def help():
 @app.route('/about')
 def about():
     return render_template('about.html', app_data=app_data)
+
+@app.route('/scripts/<path:path>')
+def send_js(path):
+    return send_from_directory('scripts', path)
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        f = request.files['audio_data']
+        f.save('temp/upload.wav')
+        return "success"
+    return "fail"
 
 
 if __name__ == '__main__':
