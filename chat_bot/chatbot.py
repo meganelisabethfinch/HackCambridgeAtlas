@@ -1,5 +1,5 @@
 import openai
-import prompts
+from chat_bot import prompts
 
 
 class ChatBot:
