@@ -8,12 +8,13 @@ DEVELOPMENT_ENV  = True
 app = Flask(__name__)
 
 app_data = {
-    "name":         "Peter's Starter Template for a Flask Web App",
-    "description":  "A basic Flask app using bootstrap for layout",
-    "author":       "Peter Simeth",
-    "html_title":   "Peter's Starter Template for a Flask Web App",
-    "project_name": "Starter Template",
-    "keywords":     "flask, webapp, template, basic"
+    "name":         "Chatbot App",
+    "description":  "A chatbot app to allow you to practice deep conversations when learning a new language.",
+    "author":       "Team Name",
+    "html_title":   "Practice Chat Session",
+    "project_name": "Chatbot App",
+    "slogan":       "Bringing the power of conversation to your hands",
+    "keywords":     "chatbot, languages, conversation, learn"
 }
 
 
@@ -21,20 +22,17 @@ app_data = {
 def index():
     return render_template('index.html', app_data=app_data)
 
+@app.route('/chat')
+def chat():
+    return render_template('chat.html', app_data=app_data)
+
+@app.route('/help')
+def help():
+    return render_template('help.html', app_data=app_data)
 
 @app.route('/about')
 def about():
     return render_template('about.html', app_data=app_data)
-
-
-@app.route('/service')
-def service():
-    return render_template('service.html', app_data=app_data)
-
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html', app_data=app_data)
 
 
 if __name__ == '__main__':

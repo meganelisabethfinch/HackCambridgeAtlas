@@ -1,10 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>{{ app_data['description'] }}</h1>
-    <h2>About page</h2>
-
-    <p class="lead">Use this document as a way to quickly start any new project.
-        <br> All you get is this text and a mostly barebones HTML document.</p>
-    <div> Now updated to Bootstrap (Version 4.4.1)</div>
+    <h1>{{ app_data['slogan'] }}</h1>
+    <br>
+    <h2>Speak, practice and learn. </h2>
+    <br>
+    <p class="lead">
+        {{ app_data['description'] }}
+    <div> Brought to you by {{ app_data['author'] }} in 24h for Hack Cambridge Atlas 2022 :)</div>
 {% endblock %}

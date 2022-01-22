@@ -1,13 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="jumbotron">
-    <h1 class="display-4">Bootstrap starter template by {{ app_data['author'] }} </h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    <p>Title: {{ app_data['html_title'] }}</p>
-
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <a class="btn btn-primary btn-lg" href="/contact" role="button">Contact</a>
-  </div>
+<div class="pb-5">
+  <h1 class="display-3">{{ app_data['name'] }}</h1>
+  <br>
+  <h1>Bringing the power of conversation to your hands</h1>
+  <br>
+  <p class="lead">
+    Build the confidence to speak about those important conversation topics with {{ app_data['name'] }}. 
+  </p>
+  <p class="lead">
+    Through our interactive chatbot chat, we help you have discussions about impactful topics: climate change, politics, sustainability... 
+    You name it, we've got it covered. 
+    So chat, learn and build up your confidence, to get the experience of a native speaker and be able to discuss those topics
+  that can help you make a positive change in the world around you.
+  </p>
+  <p class="lead">
+    What are you waiting for? Let's get started ;)
+  </p>
+  <br>
+  <a class="btn btn-primary btn-lg" href="/chat" role="button">Let's Chat!</a>
+</div>
 {% endblock %}
