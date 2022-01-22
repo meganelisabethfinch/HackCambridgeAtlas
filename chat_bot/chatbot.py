@@ -1,15 +1,12 @@
 import openai
-
+import prompts
 
 
 class ChatBot:
 
     def __init__(self, api_key, topic):
-        prompts = {
-            "food": "The following is a conversation between friends about food.\n\nFriend_q: What is your favourite pizza?\nYou: Ham and pineapple.\nFriend_q: What is your favourite type of chocolate?\nYou: Milk chocolate.\nYou: What is your favourite sandwich?\nFriend_a: I love a good BLT. \nYou: Why?\nFriend_a: The bacon, lettuce and tomato are the perfect combination."
-        }
         openai.api_key = api_key
-        self.prompt = prompts[topic]
+        self.prompt = prompts.get_prompt(topic)
 
     def api_request(self, prompt, temp=1, max_tokens=1024, freq_penalty=1.21, pres_penalty=1.74):
         response = openai.Completion.create(
@@ -53,10 +50,10 @@ class ChatBot:
 
 if __name__ == "__main__":
     api_key = "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"
-    bot = ChatBot(api_key, "food")
+    bot = ChatBot(api_key, "lifestyle")
     while True:
         user_input = input()
         if user_input[-1] == '?':
             print()
         else:
-            print(bot.answer_question(user_input))
+            print(bot.chat(user_input))
