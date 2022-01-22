@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, render_template, send_from_directory, request
-from chatbot import ChatBot
+from chat_bot.chatbot import ChatBot
 from speech_recognition.audio_transcriber import AudioTranscriber
 import asyncio
 import soundfile as sf
