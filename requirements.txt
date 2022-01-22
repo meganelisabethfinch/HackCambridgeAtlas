@@ -2,3 +2,5 @@
 flask
 deepgram-sdk
 openai
+requests
+soundfile
