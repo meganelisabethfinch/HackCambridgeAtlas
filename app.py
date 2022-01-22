@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import json
+from ssl import OPENSSL_VERSION
 from flask import Flask, render_template, send_from_directory, request
 from chat_bot.chatbot import ChatBot
 from speech_recognition.audio_transcriber import AudioTranscriber
@@ -22,7 +24,7 @@ app_data = {
     "topic":        "climate-change"
 }
 
-chatbot = ChatBot("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", "food")
+OPENAI_API_KEY = "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"
 
 @app.route('/')
 def index():
@@ -34,6 +36,8 @@ def chat_topics():
 
 @app.route('/chat/<string:language>/<string:topic>')
 def chat(language, topic):
+    global chatbot
+    chatbot = ChatBot(OPENAI_API_KEY, "food")
     app_data["language"] = language
     app_data["topic"] = topic
     return render_template('chat.html', app_data=app_data)
@@ -64,7 +68,8 @@ def upload():
             text = asyncio.run(transcriber.transcribe_audio(file))
             print(text)
             answer = chatbot.chat(text)
-            return answer
+            response_dict = {'user': text, 'ai': answer}
+            return json.dumps(response_dict)
     return "fail"
 
 
