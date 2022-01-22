@@ -45,9 +45,8 @@ def send_js(path):
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        print(request.files)
         f = request.files['audio_data']
-        f.save('upload.wav')
+        f.save('temp/upload.wav')
         return "success"
     return "fail"
 
