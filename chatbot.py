@@ -38,12 +38,18 @@ class ChatBot:
             response += ' ' + self.api_request()
         return response
 
+    def chat(self, input_text):
+        if input_text[-1] == '?':
+            return self.ask_question(input_text)
+        else:
+            return self.get_question(input_text)
+
 if __name__ == "__main__":
     api_key = "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"
     bot = ChatBot(api_key, "food")
     while True:
         user_input = input()
         if user_input[-1] == '?':
-            print(bot.ask_question(user_input))
+            print()
         else:
             print(bot.answer_question(user_input))
