@@ -5,8 +5,8 @@
 Make sure you have Python installed
 
 ```sh
-$ git clone https://github.com/petersimeth/basic-flask-template.git # or clone your own fork
-$ cd basic-flask-template
+git clone https://github.com/meganelisabethfinch/HackCambridgeAtlas.git
+$ cd HackCambridgeAtlas
 $ pip install -r requirements.txt
 $ python app.py
 ```
