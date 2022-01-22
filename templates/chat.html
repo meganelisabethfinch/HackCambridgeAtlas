@@ -7,24 +7,19 @@
         This is your new practice session in {{ app_data['language'] }}. Your topic of conversation is {{ app_data['topic'] }}.
     </p>
 
-    <div id="chatbox" class="jumbotron rounded-3">
-        // TODO: chatbox
+    <div id="chatbox" class="jumbotron rounded-3 px-5 py-3 overflow-auto">
+        <h5>Your conversation so far:</h5>
+        <div class="row">
+            <div class="col text-left text-secondary"><b><i>[BOT]</i></b></div>
+            <div class="col text-right text-secondary"><b><i>[USER]</i></b></div>
+        </div>
     </div>
-    <form class="row">
-        <div class="col-auto">
-            <label for="user_answer" class="form-label">Text input:</label>
-        </div>
-        <div class="col">
-            <input type="text" class="form-control" id="user_answer" placeholder="Type your response here.">
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-3">Send</button>
-        </div>
-    </form>
-    <div id="recording-stuff">
-        <button id="recordButton">Record</button>
-        <button id="pauseButton" disabled>Pause</button>
-        <button id="stopButton" disabled>Stop</button>
+    
+    <div id="recording-stuff" class="row pl-3 pb-5 justify-content-end">
+        <h4 class="mr-3">Press to record your reply: </h4>
+        <button id="recordButton" class="btn btn-outline-primary mr-3">Record</button>
+        <button id="pauseButton" class="btn btn-outline-secondary mr-3" disabled>Pause</button>
+        <button id="stopButton" class="btn btn-outline-dark mr-3" disabled>Stop</button>
         <ol id="recordingsList"></ol>
         <script src="../../scripts/recorder.js"></script>
         <script src="../../scripts/app.js"></script>

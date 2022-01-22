@@ -15,6 +15,8 @@ recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
 
+var messageChatBox = document.getElementById("chatbox");
+
 function startRecording() {
 	console.log("recordButton clicked");
 
@@ -118,10 +120,30 @@ function upload(blob) {
 	xhr.onload = function(e) {
 		if(this.readyState === 4) {
 			console.log("Server returned: ", e.target.responseText);
+			var decoded_string = JSON.parse(e.target.responseText);
+			addToChat(decoded_string.user, decoded_string.ai);
 		}
 	};
 	var fd = new FormData();
 	fd.append("audio_data", blob, filename);
 	xhr.open("POST","../../upload",true);
 	xhr.send(fd);
+}
+
+function addToChat(user_input, response) {
+	let userDiv = document.createElement("div");
+	let userA = document.createElement("a");
+    userDiv.className = "text-right mb-2"
+	userA.className = "bg-primary text-white rounded rounded-pill py-2 px-4";
+    userA.innerHTML = user_input;
+	userDiv.appendChild(userA);
+    messageChatBox.appendChild(userDiv);
+
+	let botDiv = document.createElement("div");
+	let botA = document.createElement("a");
+    botDiv.className = "text-left mb-2";
+	botA.className = "bg-secondary text-white rounded rounded-pill py-2 px-4";
+    botA.innerHTML = response;
+	botDiv.appendChild(botA);
+    messageChatBox.appendChild(botDiv);
 }
