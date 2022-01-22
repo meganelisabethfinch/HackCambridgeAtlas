@@ -1,1 +1,1 @@
-# HackCambridge2022
+# :earth_americas: Hack Cambridge Atlas
