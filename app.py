@@ -39,8 +39,10 @@ def chat_topics():
 
 @app.route('/chat/<string:topic>')
 def chat(topic):
+    if not session["language-code"]:
+        session["language-code"] = "en-GB"
     global chatbot
-    chatbot = ChatBot(OPENAI_API_KEY, "lifestyle")
+    chatbot = ChatBot(OPENAI_API_KEY, topic)
     app_data["topic"] = topic
     return render_template('chat.html', app_data=app_data)
 
