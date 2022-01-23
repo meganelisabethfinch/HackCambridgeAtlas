@@ -25,7 +25,7 @@ app_data = {
     "language_code": "en-GB"
 }
 
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 
 transcriber = AudioTranscriber("en-GB")
 
@@ -73,6 +73,15 @@ def upload():
             answer = chatbot.chat(text)
             response_dict = {'user': text, 'ai': answer}
             return json.dumps(response_dict)
+    return "fail"
+
+@app.route('/initial_prompt', methods=['GET', 'POST'])
+def initial_prompt():
+    if request.method == 'POST':
+        prompt = "What is your opinion of "+app_data["topic"]+"?"
+        chatbot.prompt += "\nFriend_q: " + prompt
+        response_dict = {'ai': prompt}
+        return json.dumps(response_dict)
     return "fail"
 
 @app.route('/set_language', methods=['POST'])

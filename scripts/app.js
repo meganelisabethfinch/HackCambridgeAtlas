@@ -121,7 +121,7 @@ function upload(blob) {
 		if(this.readyState === 4) {
 			console.log("Server returned: ", e.target.responseText);
 			var decoded_string = JSON.parse(e.target.responseText);
-			addToChat(decoded_string.user, decoded_string.ai);
+			addToChat(decoded_string.ai, decoded_string.user);
 		}
 	};
 	var fd = new FormData();
@@ -130,14 +130,16 @@ function upload(blob) {
 	xhr.send(fd);
 }
 
-function addToChat(user_input, response) {
-	let userDiv = document.createElement("div");
-	let userA = document.createElement("a");
-    userDiv.className = "text-right mb-2"
-	userA.className = "bg-primary text-white rounded rounded-pill py-2 px-4";
-    userA.innerHTML = user_input;
-	userDiv.appendChild(userA);
-    messageChatBox.appendChild(userDiv);
+function addToChat(response, user_input=undefined) {
+	if(user_input) {
+		let userDiv = document.createElement("div");
+		let userA = document.createElement("a");
+		userDiv.className = "text-right mb-2"
+		userA.className = "bg-primary text-white rounded rounded-pill py-2 px-4";
+		userA.innerHTML = user_input;
+		userDiv.appendChild(userA);
+		messageChatBox.appendChild(userDiv);
+	}
 
 	let botDiv = document.createElement("div");
 	let botA = document.createElement("a");
@@ -147,3 +149,16 @@ function addToChat(user_input, response) {
 	botDiv.appendChild(botA);
     messageChatBox.appendChild(botDiv);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var xhr = new XMLHttpRequest();
+	xhr.onload = function(e) {
+		if(this.readyState === 4) {
+			var decoded_string = JSON.parse(e.target.responseText);
+			addToChat(decoded_string.ai);
+		}
+	};
+	var fd = new FormData();
+	xhr.open("POST","../../initial_prompt",true);
+	xhr.send(fd);
+}, false);

@@ -47,9 +47,8 @@ class ChatBot:
         else:
             return self.get_question(input_text)
 
-
 if __name__ == "__main__":
-    api_key = "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"
+    api_key = "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"
     bot = ChatBot(api_key, "lifestyle")
     while True:
         user_input = input()
