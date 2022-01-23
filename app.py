@@ -8,7 +8,7 @@ from chat_bot.chatbot import ChatBot
 from speech_recognition.audio_transcriber import AudioTranscriber
 import asyncio
 import soundfile as sf
-from keys import *
+from keys.keys import *
 
 DEVELOPMENT_ENV  = True
 
