@@ -8,6 +8,7 @@ from chat_bot.chatbot import ChatBot
 from speech_recognition.audio_transcriber import AudioTranscriber
 import asyncio
 import soundfile as sf
+from keys import *
 
 DEVELOPMENT_ENV  = True
 
@@ -25,7 +26,7 @@ app_data = {
     "language_code": "en-GB"
 }
 
-OPENAI_API_KEY = "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"
+
 
 transcriber = AudioTranscriber("en-GB")
 
