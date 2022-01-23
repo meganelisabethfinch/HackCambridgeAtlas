@@ -17,7 +17,7 @@ class ChatBot:
         top_p=1,
         frequency_penalty=freq_penalty,
         presence_penalty=pres_penalty,
-        stop=["You:", "Friend_a:", "Friend_q:"]
+        stop=["You:", "Friend_q:", "Friend_a:"]
         )
         return response.choices[0].text.strip()
 
@@ -31,9 +31,11 @@ class ChatBot:
         self.prompt += f"\nYou: {answer}\nFriend_q:"
         response = self.api_request(self.prompt)
         self.prompt += response
-        while response[-1] != "?":
-            self.prompt += "\nFriend_q:"
+        i = 0
+        while response[-1] != "?" and i < 10:
+            self.prompt += f"\nFriend_q:"
             response += ' ' + self.api_request(self.prompt)
+            i += 1
         return response
 
     def translate(self, text, source_language, target_language):
@@ -49,7 +51,7 @@ class ChatBot:
 
 if __name__ == "__main__":
     api_key = "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"
-    bot = ChatBot(api_key, "lifestyle")
+    bot = ChatBot(api_key, "food", "English")
     while True:
         user_input = input()
         if user_input[-1] == '?':

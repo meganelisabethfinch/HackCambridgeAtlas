@@ -121,7 +121,7 @@ function upload(blob) {
 		if(this.readyState === 4) {
 			console.log("Server returned: ", e.target.responseText);
 			var decoded_string = JSON.parse(e.target.responseText);
-			addToChat(decoded_string.ai, decoded_string.user);
+			addToChat(decoded_string.ai, decoded_string.time, decoded_string.user);
 		}
 	};
 	var fd = new FormData();
@@ -130,7 +130,7 @@ function upload(blob) {
 	xhr.send(fd);
 }
 
-function addToChat(response, user_input=undefined) {
+function addToChat(response, time, user_input=undefined) {
 	if(user_input) {
 		let userDiv = document.createElement("div");
 		let userA = document.createElement("a");
@@ -148,6 +148,9 @@ function addToChat(response, user_input=undefined) {
     botA.innerHTML = response;
 	botDiv.appendChild(botA);
     messageChatBox.appendChild(botDiv);
+
+	var audio = new Audio('../temp/tts'+time+'.wav');
+	audio.play();
 }
 
 document.addEventListener('DOMContentLoaded', function() {

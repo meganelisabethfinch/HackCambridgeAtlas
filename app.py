@@ -9,6 +9,10 @@ from speech_recognition.audio_transcriber import AudioTranscriber
 import asyncio
 import soundfile as sf
 from keys.keys import *
+from gtts import gTTS, lang
+import glob
+import os
+import time
 
 DEVELOPMENT_ENV  = True
 
@@ -59,6 +63,15 @@ def about():
 def send_js(path):
     return send_from_directory('scripts', path)
 
+@app.route('/temp/<path:path>')
+def send_temp(path):
+    return send_from_directory('temp', path)
+
+def delete_temp_contents():
+    files = glob.glob('temp/*')
+    for f in files:
+        os.remove(f)
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
@@ -70,18 +83,27 @@ def upload():
         with open('temp/upload2.wav', 'rb') as file:
             print(file)
             text = asyncio.run(transcriber.transcribe_audio(file))
-            print(text)
-            answer = chatbot.chat(text)
-            response_dict = {'user': text, 'ai': answer}
-            return json.dumps(response_dict)
+        print(text)
+        language = lang.tts_langs()[session["language-code"][:2]]
+        translated_t = chatbot.translate(text, language, "English")
+        answer = chatbot.chat(translated_t)
+        translated_a = chatbot.translate(answer, "English", language)
+        tts = gTTS(translated_a, lang=session["language-code"][:2])
+        delete_temp_contents()
+        curr_time = str(round(time.time()))
+        tts.save("temp/tts"+curr_time+".wav")
+        response_dict = {'user': text, 'ai': translated_a, 'time': curr_time}
+        return json.dumps(response_dict)
     return "fail"
 
 @app.route('/initial_prompt', methods=['GET', 'POST'])
 def initial_prompt():
     if request.method == 'POST':
         prompt = "What is your opinion of "+app_data["topic"]+"?"
-        chatbot.prompt += "\nFriend_q: " + prompt
-        response_dict = {'ai': prompt}
+        chatbot.prompt += f"\nFriend_q: " + prompt
+        language = lang.tts_langs()[session["language-code"][:2]]
+        translated_p = chatbot.translate(prompt, "English", language)
+        response_dict = {'ai': translated_p}
         return json.dumps(response_dict)
     return "fail"
 
