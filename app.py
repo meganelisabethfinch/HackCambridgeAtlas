@@ -25,7 +25,7 @@ app_data = {
     "language_code": "en-GB"
 }
 
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 
 transcriber = AudioTranscriber("en-GB")
 
