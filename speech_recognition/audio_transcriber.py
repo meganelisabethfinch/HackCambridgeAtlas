@@ -19,7 +19,7 @@ class AudioTranscriber:
             return response.json()['results']['channels'][0]['alternatives'][0]['transcript']
         else:
             print(response.json()['error'] + ": " + response.json()['reason'])
-            return
+            return ""
         
     async def api_request(self, audio):
         source = {'buffer': audio, 'mimetype': 'audio/wav'}
