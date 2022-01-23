@@ -131,23 +131,36 @@ function upload(blob) {
 }
 
 function addToChat(response, time, user_input=undefined) {
-	if(user_input) {
+	
+	if(user_input){
+		let userRowDiv = document.createElement("div");
+		userRowDiv.className = "row justify-content-end";
+
 		let userDiv = document.createElement("div");
 		let userA = document.createElement("a");
-		userDiv.className = "text-right mb-2"
-		userA.className = "bg-primary text-white rounded rounded-pill py-2 px-4";
+		userDiv.className = "m-2 bg-primary text-white py-2 px-4";
+		userDiv.style = "border-radius: 10px 10px 0px 10px";
 		userA.innerHTML = user_input;
 		userDiv.appendChild(userA);
-		messageChatBox.appendChild(userDiv);
+		userRowDiv.appendChild(userDiv);
+
+		userRowDiv.appendChild(document.createElement("p"))
+		messageChatBox.appendChild(userRowDiv);
 	}
+
+	let botRowDiv = document.createElement("div");
+	botRowDiv.className = "row justify-content-start";
 
 	let botDiv = document.createElement("div");
 	let botA = document.createElement("a");
-    botDiv.className = "text-left mb-2";
-	botA.className = "bg-secondary text-white rounded rounded-pill py-2 px-4";
+    botDiv.className = "m-2 bg-secondary text-white py-2 px-4";
+	botDiv.style = "border-radius: 10px 10px 10px 0px";
     botA.innerHTML = response;
 	botDiv.appendChild(botA);
-    messageChatBox.appendChild(botDiv);
+    botRowDiv.appendChild(botDiv);
+
+	botRowDiv.appendChild(document.createElement("p"))
+	messageChatBox.appendChild(botRowDiv);
 
 	var audio = new Audio('../temp/tts'+time+'.wav');
 	audio.play();

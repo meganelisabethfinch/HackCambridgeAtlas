@@ -20,11 +20,11 @@ app = Flask(__name__)
 app.secret_key = 'BAD_SECRET_KEY'
 
 app_data = {
-    "name":         "Chatbot App",
+    "name":         "Triolingo",
     "description":  "A chatbot app to allow you to practice deep conversations when learning a new language.",
     "author":       "Team Name",
     "html_title":   "Practice Chat Session",
-    "project_name": "Chatbot App",
+    "project_name": "Triolingo",
     "slogan":       "Bringing the power of conversation to your hands",
     "language":     "English",
     "language_code": "en-GB"

@@ -7,28 +7,48 @@
         Here you can start a new practice session. Please select a topic you'd like to discuss:
     </p>
     <h4>Available Topics:</h4>
-    <div class="row justify-content-center p-3">
+    <h5 class="text-center">Starter Topics:</h5>
+    <div class="row justify-content-center p-3 mb-2">
         <!-- topics as cards/buttons -->
         <div class="col-3">
             <a href="" class="btn btn-outline-secondary p-3" style="height: 100%"
-            onclick="this.href='/chat/climate-change'">
-                <h5 class="card-title">Climate Change</h5>
+            onclick="this.href='/chat/food'">
+                <h5 class="card-title">🥝 Food 🥝</h5>
+                <p class="card-text">Yum yum fooood! Local and worldwide gastronomies.</p>
+            </a>
+        </div>
+        <div class="col-3">
+            <a href="" class="btn btn-outline-secondary p-3" style="height: 100%"
+            onclick="this.href='/chat/lifestyle'">
+                <h5 class="card-title">🤾‍♀️ Lifestyle 🤾‍♀️</h5>
+                <p class="card-text">Discuss hobbies, home, lifestyle and routines.</p>
+            </a>
+        </div>
+        <br>
+    </div>
+    <h5 class="text-center">Advanced Topics:</h5>
+    <div class="row justify-content-center p-3 mb-5">
+        <div class="col-3">
+            <a href="" class="btn btn-outline-secondary p-3" style="height: 100%"
+            onclick="this.href='/chat/environment'">
+                <h5 class="card-title">🌿 Environment 🌿</h5>
                 <p class="card-text">Talk about the latest topics regarding the climate crisis.</p>
             </a>
         </div>
         <div class="col-3">
             <a href="" class="btn btn-outline-secondary p-3" style="height: 100%"
-            onclick="this.href='/chat/topic-2'">
-                <h5 class="card-title">Sustainable Development</h5>
-                <p class="card-text">Lorem ipsum bla bla bla</p>
+            onclick="this.href='/chat/sustainability'">
+                <h5 class="card-title">🌍 Sustainability 🌍</h5>
+                <p class="card-text">Food waste, recycling and sustainable transport.</p>
             </a>
         </div>
         <div class="col-3">
             <a href="" class="btn btn-outline-secondary p-3" style="height: 100%"
-            onclick="this.href='/chat/food'">
-                <h5 class="card-title">Food</h5>
-                <p class="card-text">Yum yum fooood</p>
+            onclick="this.href='/chat/culture'">
+                <h5 class="card-title">🏛 Culture 🏛</h5>
+                <p class="card-text">Local traditions, music and media influences.</p>
             </a>
         </div>
+        <br>
     </div>
 {% endblock %}

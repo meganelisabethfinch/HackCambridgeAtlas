@@ -44,7 +44,9 @@ class ChatBot:
         return response
 
     def chat(self, input_text):
-        if input_text[-1] == '?':
+        if not input_text:
+            return "Sorry, could you repeat that?"
+        elif input_text[-1] == '?':
             return self.ask_question(input_text)
         else:
             return self.get_question(input_text)
