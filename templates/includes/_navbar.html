@@ -23,6 +23,27 @@
           <a class="nav-link" href="/about">About</a>
         </li>
       </ul>
+      <form action="/set_language" method="POST">
+      <select id="lang-selected" name="lang-selected" onchange="this.form.submit()" class="form-select-sm ml-3" aria-label="select">
+        <option value="en-GB">English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+      </select>
+    </form>
     </div>
   </div>
 </nav>
+
+<script>
+  // Script to set language in the dropdown menu
+  var default_lang = '{{ session["language-code"] }}';
+
+  var language_selector = document.getElementById('lang-selected');
+
+  for(var j = 0; j < language_selector.length; j++) {
+    if (language_selector.options[j].value == default_lang) {
+      language_selector.selectedIndex = j;
+      break;
+    }
+  }
+</script>

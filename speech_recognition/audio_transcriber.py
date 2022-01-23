@@ -29,7 +29,7 @@ class AudioTranscriber:
                 "Authorization": "Token " + self.DEEPGRAM_API_KEY,
                 "Content-Type": "audio/wave"
             }
-            response = requests.request("POST", self.url, headers=headers, data=payload)
+            response = requests.request("POST", self.url + "&language=" + self.language, headers=headers, data=payload)
             return response
         except:
             print("Error: Deepgram API request failed.")

@@ -4,35 +4,28 @@
     <h1>Welcome to {{ app_data['name'] }}</h1>
 
     <p class="lead">
-        Here you can start a new practice session. Please select your language:
-        <select id="lang-selected" class="form-select-sm ml-3" aria-label="select">
-            <option value="en-GB">English</option>
-            <option value="es-ES">Spanish</option>
-            <option value="fr-FR">French</option>
-        </select>
-        <br>
-        Please select a topic you'd like to discuss:
+        Here you can start a new practice session. Please select a topic you'd like to discuss:
     </p>
     <h4>Available Topics:</h4>
     <div class="row justify-content-center p-3">
         <!-- topics as cards/buttons -->
         <div class="col-3">
             <a href="" class="btn btn-outline-secondary p-3" style="height: 100%"
-            onclick="this.href='/chat/'+$('#lang-selected').val()+'/climate-change'">
+            onclick="this.href='/chat/climate-change'">
                 <h5 class="card-title">Climate Change</h5>
                 <p class="card-text">Talk about the latest topics regarding the climate crisis.</p>
             </a>
         </div>
         <div class="col-3">
             <a href="" class="btn btn-outline-secondary p-3" style="height: 100%"
-            onclick="this.href='/chat/'+$('#lang-selected').val()+'/topic-2'">
+            onclick="this.href='/chat/topic-2'">
                 <h5 class="card-title">Sustainable Development</h5>
                 <p class="card-text">Lorem ipsum bla bla bla</p>
             </a>
         </div>
         <div class="col-3">
             <a href="" class="btn btn-outline-secondary p-3" style="height: 100%"
-            onclick="this.href='/chat/'+$('#lang-selected').val()+'/topic-3'">
+            onclick="this.href='/chat/topic-3'">
                 <h5 class="card-title">Topic 3</h5>
                 <p class="card-text">Lorem ipsum bla bla bla</p>
             </a>
