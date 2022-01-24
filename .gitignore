@@ -106,3 +106,8 @@ venv.bak/
 .vscode
 temp/*
 keys/*
+
+*.log
+*.wsgi
+trio_env/
+__init__.py
