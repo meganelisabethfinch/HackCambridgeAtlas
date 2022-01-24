@@ -1,6 +1,6 @@
 ###### Requirements without Version Specifiers ######
 flask
-deepgram-sdk
 openai
 requests
 soundfile
+gtts
