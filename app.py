@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import json
-from ssl import OPENSSL_VERSION
-from flask import Flask, render_template, send_from_directory, request, session, redirect
-from chat_bot.chatbot import ChatBot
-from speech_recognition.audio_transcriber import AudioTranscriber
 import asyncio
-import soundfile as sf
-from keys.keys import *
-from gtts import gTTS, lang
 import glob
+import json
 import os
 import time
+
+import soundfile as sf
+from flask import (Flask, redirect, render_template, request,
+                   send_from_directory, session)
+from gtts import gTTS, lang
+
+from chat_bot import prompts
+from chat_bot.chatbot import ChatBot
+from keys.keys import *
+from speech_recognition.audio_transcriber import AudioTranscriber
 
 DEVELOPMENT_ENV  = True
 
@@ -23,16 +26,13 @@ app_data = {
     "name":         "Triolingo",
     "description":  "A chatbot app to allow you to practice deep conversations when learning a new language.",
     "author":       "Team Name",
-    "html_title":   "Practice Chat Session",
+    "html_title":   "Triolingo",
     "project_name": "Triolingo",
-    "slogan":       "Bringing the power of conversation to your hands",
-    "language":     "English",
-    "language_code": "en-GB"
+    "slogan":       "Bringing the power of conversation to your hands"
 }
 
-
-
-transcriber = AudioTranscriber("en-GB")
+chatbot = ChatBot(OPENAI_API_KEY, session)
+transcriber = AudioTranscriber(DEEPGRAM_API_KEY)
 
 @app.route('/')
 def index():
@@ -44,12 +44,16 @@ def chat_topics():
 
 @app.route('/chat/<string:topic>')
 def chat(topic):
+    # Initialise language if not set
     if not "language-code" in session:
         session["language-code"] = "en-GB"
-    global chatbot
-    chatbot = ChatBot(OPENAI_API_KEY, topic)
-    app_data["topic"] = topic
-    return render_template('chat.html', app_data=app_data)
+    if not "language-name" in session:
+        session["language-name"] = "English"
+    
+    # Get random subtopic and associated prompt
+    (session["prompt"], session["subtopic"]) = prompts.get_prompt(topic)
+
+    return render_template('chat.html', app_data=app_data, language=session["language-name"], topic=session["subtopic"])
 
 @app.route('/help')
 def help():
@@ -63,56 +67,80 @@ def about():
 def send_js(path):
     return send_from_directory('scripts', path)
 
+@app.route('/images/<path:path>')
+def send_img(path):
+    return send_from_directory('images', path)
+
 @app.route('/temp/<path:path>')
 def send_temp(path):
     return send_from_directory('temp', path)
 
-def delete_temp_contents():
-    files = glob.glob('temp/*')
-    for f in files:
-        os.remove(f)
-
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
+        # Save audio file from POST data
         f = request.files['audio_data']
         f.save('temp/upload.wav')
+
+        # Re-encode audio file ready for transcription
         data, samplerate = sf.read('temp/upload.wav')
         sf.write('temp/upload2.wav', data, samplerate, subtype='PCM_16')
 
+        # Transcribe audio file
         with open('temp/upload2.wav', 'rb') as file:
-            print(file)
-            text = asyncio.run(transcriber.transcribe_audio(file))
-        print(text)
-        language = lang.tts_langs()[session["language-code"][:2]]
-        translated_t = chatbot.translate(text, language, "English")
-        answer = chatbot.chat(translated_t)
-        translated_a = chatbot.translate(answer, "English", language)
-        tts = gTTS(translated_a, lang=session["language-code"][:2])
-        delete_temp_contents()
-        curr_time = str(round(time.time()))
-        tts.save("temp/tts"+curr_time+".wav")
-        response_dict = {'user': text, 'ai': translated_a, 'time': curr_time}
+            text = asyncio.run(transcriber.transcribe_audio(file, session.get("language-code", "en-GB")))
+
+        # Get response from ChatBot and generate speech from it
+        answer = chat(text)
+        tts_file = tts(answer, session["language-code"])
+
+        response_dict = {'user': text, 'ai': answer, 'tts_file': tts_file}
         return json.dumps(response_dict)
     return "fail"
 
 @app.route('/initial_prompt', methods=['GET', 'POST'])
 def initial_prompt():
     if request.method == 'POST':
-        prompt = "What is your opinion of "+app_data["topic"]+"?"
-        chatbot.prompt += f"\nFriend_q: " + prompt
-        language = lang.tts_langs()[session["language-code"][:2]]
-        translated_p = chatbot.translate(prompt, "English", language)
-        response_dict = {'ai': translated_p}
+        # Start with a basic question as the initial prompt to the user, append this to the GPT-3 hidden prompt
+        start_prompt = f"What is your opinion of {session['subtopic']}?"
+        session["prompt"] += f"\nFriend_q: " + start_prompt
+
+        # Translate into target language and generate speech
+        translated_prompt = chatbot.translate(start_prompt, "English", session["language-name"])
+        tts_file = tts(translated_prompt, session["language-code"])
+
+        response_dict = {'ai': translated_prompt, 'tts_file': tts_file}
         return json.dumps(response_dict)
     return "fail"
 
 @app.route('/set_language', methods=['POST'])
 def set_language():
     session['language-code'] = request.form.get('lang-selected')
-    global transcriber
-    transcriber = AudioTranscriber(session.get("language-code", "en-GB"))
+    session["language-name"] = lang.tts_langs()[session["language-code"][:2]]
     return redirect(request.referrer)
+
+
+# Utility functions
+
+def delete_temp_contents():
+    files = glob.glob('temp/*')
+    for f in files:
+        os.remove(f)
+
+def tts(text, language):
+    tts = gTTS(text, lang=language)
+    delete_temp_contents()
+    curr_time = str(round(time.time()))
+    filename = f"tts{curr_time}.wav"
+    tts.save(f"temp/{filename}")
+    return filename
+
+def chat(text):
+    if session["language-name"] != "English":
+        text = chatbot.translate(text, session["language-name"], "English")
+        answer = chatbot.chat(text)
+        return chatbot.translate(answer, "English", session["language-name"])
+    return chatbot.chat(text)
 
 if __name__ == '__main__':
     app.run(debug=DEVELOPMENT_ENV)
