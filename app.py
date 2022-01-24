@@ -17,7 +17,7 @@ from chat_bot.chatbot import ChatBot
 from keys.keys import *
 from speech_recognition.audio_transcriber import AudioTranscriber
 
-DEVELOPMENT_ENV  = True
+DEVELOPMENT_ENV = False
 
 app = Flask(__name__)
 app.secret_key = 'BAD_SECRET_KEY'
