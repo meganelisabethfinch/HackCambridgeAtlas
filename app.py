@@ -34,6 +34,8 @@ app_data = {
 chatbot = ChatBot(OPENAI_API_KEY, session)
 transcriber = AudioTranscriber(DEEPGRAM_API_KEY)
 
+cwd = os.path.dirname(os.path.realpath(__file__)) + '/'
+
 @app.route('/')
 def index():
     return render_template('index.html', app_data=app_data)
@@ -80,14 +82,14 @@ def upload():
     if request.method == 'POST':
         # Save audio file from POST data
         f = request.files['audio_data']
-        f.save('temp/upload.wav')
+        f.save(cwd+'temp/upload.wav')
 
         # Re-encode audio file ready for transcription
-        data, samplerate = sf.read('temp/upload.wav')
-        sf.write('temp/upload2.wav', data, samplerate, subtype='PCM_16')
+        data, samplerate = sf.read(cwd+'temp/upload.wav')
+        sf.write(cwd+'temp/upload2.wav', data, samplerate, subtype='PCM_16')
 
         # Transcribe audio file
-        with open('temp/upload2.wav', 'rb') as file:
+        with open(cwd+'temp/upload2.wav', 'rb') as file:
             text = asyncio.run(transcriber.transcribe_audio(file, session.get("language-code", "en-GB")))
 
         # Get response from ChatBot and generate speech from it
@@ -123,7 +125,7 @@ def set_language():
 # Utility functions
 
 def delete_temp_contents():
-    files = glob.glob('temp/*')
+    files = glob.glob(cwd+'temp/*')
     for f in files:
         os.remove(f)
 
@@ -132,7 +134,7 @@ def tts(text, language):
     delete_temp_contents()
     curr_time = str(round(time.time()))
     filename = f"tts{curr_time}.wav"
-    tts.save(f"temp/{filename}")
+    tts.save(f"{cwd}temp/{filename}")
     return filename
 
 def chat(text):
