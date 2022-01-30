@@ -18,7 +18,7 @@ pauseButton.addEventListener("click", pauseRecording);
 var messageChatBox = document.getElementById("chatbox");
 
 function startRecording() {
-	console.log("recordButton clicked");
+	//console.log("recordButton clicked");
 
 	/*
 		Simple constraints object, for more advanced audio features see
@@ -41,7 +41,7 @@ function startRecording() {
 	*/
 
 	navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-		console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
+		//console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
 
 		/*
 			create an audio context after getUserMedia is called
@@ -66,7 +66,7 @@ function startRecording() {
 		//start the recording process
 		rec.record()
 
-		console.log("Recording started");
+		//console.log("Recording started");
 
 	}).catch(function(err) {
 	  	//enable the record button if getUserMedia() fails
@@ -77,7 +77,7 @@ function startRecording() {
 }
 
 function pauseRecording(){
-	console.log("pauseButton clicked rec.recording=",rec.recording );
+	//console.log("pauseButton clicked rec.recording=",rec.recording );
 	if (rec.recording){
 		//pause
 		rec.stop();
@@ -91,7 +91,7 @@ function pauseRecording(){
 }
 
 function stopRecording() {
-	console.log("stopButton clicked");
+	//console.log("stopButton clicked");
 
 	//disable the stop button, enable the record too allow for new recordings
 	stopButton.disabled = true;
@@ -119,9 +119,9 @@ function upload(blob) {
 	var xhr = new XMLHttpRequest();
 	xhr.onload = function(e) {
 		if(this.readyState === 4) {
-			console.log("Server returned: ", e.target.responseText);
+			//console.log("Server returned: ", e.target.responseText);
 			var decoded_string = JSON.parse(e.target.responseText);
-			addToChat(decoded_string.ai, decoded_string.time, decoded_string.user);
+			addToChat(decoded_string.ai, decoded_string.tts_file, decoded_string.user);
 		}
 	};
 	var fd = new FormData();
@@ -130,7 +130,7 @@ function upload(blob) {
 	xhr.send(fd);
 }
 
-function addToChat(response, time, user_input=undefined) {
+function addToChat(response, tts_file, user_input=undefined) {
 	
 	if(user_input){
 		let userRowDiv = document.createElement("div");
@@ -162,7 +162,7 @@ function addToChat(response, time, user_input=undefined) {
 	botRowDiv.appendChild(document.createElement("p"))
 	messageChatBox.appendChild(botRowDiv);
 
-	var audio = new Audio('../temp/tts'+time+'.wav');
+	var audio = new Audio('../temp/'+tts_file);
 	audio.play();
 }
 
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	xhr.onload = function(e) {
 		if(this.readyState === 4) {
 			var decoded_string = JSON.parse(e.target.responseText);
-			addToChat(decoded_string.ai);
+			addToChat(decoded_string.ai, decoded_string.tts_file);
 		}
 	};
 	var fd = new FormData();

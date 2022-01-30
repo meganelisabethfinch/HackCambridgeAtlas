@@ -1,14 +1,13 @@
 import openai
-from chat_bot import prompts
 
 
 class ChatBot:
 
-    def __init__(self, api_key, topic):
+    def __init__(self, api_key, session):
         openai.api_key = api_key
-        self.prompt = prompts.get_prompt(topic)
-
-    def api_request(self, prompt, temp=1, max_tokens=1024, freq_penalty=1.21, pres_penalty=1.74):
+        self.session = session
+        
+    def api_request(self, prompt, temp=1, max_tokens=64, freq_penalty=1.21, pres_penalty=1.74):
         response = openai.Completion.create(
         engine="text-davinci-001",
         prompt=prompt,
@@ -22,19 +21,19 @@ class ChatBot:
         return response.choices[0].text.strip()
 
     def ask_question(self, question):
-        self.prompt += f"\nYou: {question}\nFriend_a:"
-        response = self.api_request(self.prompt)
-        self.prompt += response
+        self.session["prompt"] += f"\nYou: {question}\nFriend_a:"
+        response = self.api_request(self.session["prompt"])
+        self.session["prompt"] += response
         return response
 
     def get_question(self, answer):
-        self.prompt += f"\nYou: {answer}\nFriend_q:"
-        response = self.api_request(self.prompt)
-        self.prompt += response
+        self.session["prompt"] += f"\nYou: {answer}\nFriend_q:"
+        response = self.api_request(self.session["prompt"])
+        self.session["prompt"] += response
         i = 0
-        while response[-1] != "?" and i < 10:
-            self.prompt += f"\nFriend_q:"
-            response += ' ' + self.api_request(self.prompt)
+        while response[-1] != "?" and i < 5:
+            self.session["prompt"] += f"\nFriend_q:"
+            response += ' ' + self.api_request(self.session["prompt"])
             i += 1
         return response
 
