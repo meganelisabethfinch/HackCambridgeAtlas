@@ -7,7 +7,7 @@ class ChatBot:
         openai.api_key = api_key
         self.session = session
         
-    def api_request(self, prompt, temp=1, max_tokens=60, freq_penalty=1.21, pres_penalty=1.74):
+    def api_request(self, prompt, temp=1, max_tokens=64, freq_penalty=1.21, pres_penalty=1.74):
         response = openai.Completion.create(
         engine="text-davinci-001",
         prompt=prompt,

@@ -108,10 +108,11 @@ def initial_prompt():
         session["prompt"] += f"\nFriend_q: " + start_prompt
 
         # Translate into target language and generate speech
-        translated_prompt = chatbot.translate(start_prompt, "English", session["language-name"])
-        tts_file = tts(translated_prompt, session["language-code"])
+        if session["language-name"] != "English":
+            start_prompt = chatbot.translate(start_prompt, "English", session["language-name"])
+        tts_file = tts(start_prompt, session["language-code"])
 
-        response_dict = {'ai': translated_prompt, 'tts_file': tts_file}
+        response_dict = {'ai': start_prompt, 'tts_file': tts_file}
         return json.dumps(response_dict)
     return "fail"
 
@@ -119,6 +120,7 @@ def initial_prompt():
 def set_language():
     session['language-code'] = request.form.get('lang-selected')
     session["language-name"] = lang.tts_langs()[session["language-code"][:2]]
+    print(request.referrer)
     return redirect(request.referrer)
 
 
